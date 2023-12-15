@@ -1,4 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
+import type { TransactionSetupType, TransactionType } from './types';
 
 const LINKING_ERROR =
   `The package 'react-native-stone-pos-deeplink' doesn't seem to be linked. Make sure: \n\n` +
@@ -19,4 +20,22 @@ const StonePosDeeplink = NativeModules.StonePosDeeplink
 
 export function multiply(a: number, b: number): Promise<number> {
   return StonePosDeeplink.multiply(a, b);
+}
+
+export function makeTransaction(
+  {
+    installmentCount = 1,
+    installmentHasInterest = false,
+    ...restOfTransactionSetup
+  }: TransactionSetupType
+  //progressCallbackEventName: ProgressEventName = 'MAKE_TRANSACTION_PROGRESS'
+): Promise<TransactionType> {
+  return StonePosDeeplink.makeTransaction(
+    {
+      installmentCount,
+      installmentHasInterest,
+      ...restOfTransactionSetup,
+    }
+    //progressCallbackEventName
+  );
 }

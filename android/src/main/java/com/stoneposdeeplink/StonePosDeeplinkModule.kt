@@ -5,6 +5,8 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.Promise
 
+import com.stoneposdeeplink.executors.*
+
 class StonePosDeeplinkModule(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
 
@@ -17,6 +19,21 @@ class StonePosDeeplinkModule(reactContext: ReactApplicationContext) :
   @ReactMethod
   fun multiply(a: Double, b: Double, promise: Promise) {
     promise.resolve(a * b)
+  }
+
+  @ReactMethod
+  fun makeTransaction(
+    transactionSetup: ReadableMap,
+    promise: Promise
+  ) {
+    try {
+      MakeTransaction(reactApplicationContext, currentActivity).executeAction(
+        transactionSetup,
+        promise
+      )
+    } catch (e: Exception) {
+      promise.reject(e)
+    }
   }
 
   companion object {
