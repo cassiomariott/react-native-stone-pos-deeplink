@@ -5,9 +5,6 @@ import android.app.Activity
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
 
-//import com.stoneposdeeplink.helpers.ConversionHelpers
-//import stone.database.transaction.TransactionObject
-
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -17,14 +14,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import java.lang.Exception
 
-class MakeTransaction(
-  reactApplicationContext: ReactApplicationContext,
-  currentActivity: Activity?
-) : BaseExecutor(reactApplicationContext, currentActivity) {
+class MakeTransaction(reactApplicationContext: ReactApplicationContext ) {
+
+  val reactApplicationContext = reactApplicationContext
 
   fun executeAction(
     transactionSetup: ReadableMap
   ) {
+
+
     val requiredValues =
       listOf(
         "amountInCents",
@@ -38,11 +36,12 @@ class MakeTransaction(
           String.format("%s is required", it)
         )
       }
-    }
+    }   
     
     val amount = transactionSetup.getString("amountInCents")
-    val typeOfTransaction = transactionSetup.getString("typeOfTransaction")
-    val installmentCount = transactionSetup.getInt("installmentCount")
+    //val typeOfTransaction = transactionSetup.getString("typeOfTransaction")
+    //val installmentCount = transactionSetup.getString("installmentCount")
+
 
     val uriBuilder = Uri.Builder()
     uriBuilder.authority("pay")
@@ -51,14 +50,15 @@ class MakeTransaction(
 
     uriBuilder.appendQueryParameter("amount", amount)
     uriBuilder.appendQueryParameter("editable_amount", "0")
-    uriBuilder.appendQueryParameter("transaction_type", typeOfTransaction)
+    uriBuilder.appendQueryParameter("transaction_type", "CREDIT")
     uriBuilder.appendQueryParameter("installment_type", "MERCHANT")
-    uriBuilder.appendQueryParameter("installment_count", installmentCount)
+    uriBuilder.appendQueryParameter("installment_count", "2")
     uriBuilder.appendQueryParameter("order_id", "123")
 
     val intent = Intent(Intent.ACTION_VIEW)
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     intent.data = uriBuilder.build()
+
     reactApplicationContext.startActivity(intent)
   }
 

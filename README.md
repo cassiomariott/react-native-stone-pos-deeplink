@@ -11,11 +11,11 @@ npm install react-native-stone-pos-deeplink
 ## Usage
 
 ```js
-import { multiply } from 'react-native-stone-pos-deeplink';
+import { makeTransaction } from 'react-native-stone-pos-deeplink';
 
 // ...
 
-const result = await multiply(3, 7);
+makeTransaction({ typeOfTransaction: 'DEBIT', amount: '500', ... });
 ```
 
 ## Contributing

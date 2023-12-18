@@ -3,9 +3,11 @@ package com.stoneposdeeplink
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.Promise
 
 import com.stoneposdeeplink.executors.*
+import com.facebook.react.bridge.*
 
 class StonePosDeeplinkModule(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
@@ -22,15 +24,10 @@ class StonePosDeeplinkModule(reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun makeTransaction(
-    transactionSetup: ReadableMap,
-    promise: Promise
-  ) {
+  fun makeTransaction( transactionSetup: ReadableMap, promise: Promise ) {
     try {
-      MakeTransaction(reactApplicationContext, currentActivity).executeAction(
-        transactionSetup,
-        promise
-      )
+      MakeTransaction(reactApplicationContext).executeAction( transactionSetup )
+      promise.resolve(true)
     } catch (e: Exception) {
       promise.reject(e)
     }
