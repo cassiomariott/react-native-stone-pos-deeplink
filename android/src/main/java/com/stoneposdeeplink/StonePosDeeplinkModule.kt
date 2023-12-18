@@ -33,6 +33,16 @@ class StonePosDeeplinkModule(reactContext: ReactApplicationContext) :
     }
   }
 
+  @ReactMethod
+  fun reprinterTransaction( restOfTransactionReprinter: ReadableMap, promise: Promise ) {
+    try {
+      ReprinterTransaction(reactApplicationContext).executeAction( restOfTransactionReprinter )
+      promise.resolve(true)
+    } catch (e: Exception) {
+      promise.reject(e)
+    }
+  }
+
   companion object {
     const val NAME = "StonePosDeeplink"
   }

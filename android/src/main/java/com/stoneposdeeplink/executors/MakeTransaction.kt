@@ -6,12 +6,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
 
 import android.net.Uri
-import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Toast
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import java.lang.Exception
 
 class MakeTransaction(reactApplicationContext: ReactApplicationContext ) {
@@ -25,9 +20,8 @@ class MakeTransaction(reactApplicationContext: ReactApplicationContext ) {
 
     val requiredValues =
       listOf(
-        "amountInCents",
-        "typeOfTransaction",
-        "installmentCount"
+        "amount",
+        "typeOfTransaction"
       )
 
     requiredValues.forEach {
@@ -38,9 +32,11 @@ class MakeTransaction(reactApplicationContext: ReactApplicationContext ) {
       }
     }   
     
-    val amount = transactionSetup.getString("amountInCents")
-    //val typeOfTransaction = transactionSetup.getString("typeOfTransaction")
-    //val installmentCount = transactionSetup.getString("installmentCount")
+    val amount = transactionSetup.getString("amount")
+    val installmentCount = transactionSetup.getString("installmentCount")
+    val amountOfEditable = transactionSetup.getString("amountOfEditable")
+    val typeOfTransaction = transactionSetup.getString("typeOfTransaction")
+    val typeOfInstallment = transactionSetup.getString("typeOfInstallment")
 
 
     val uriBuilder = Uri.Builder()
@@ -49,11 +45,10 @@ class MakeTransaction(reactApplicationContext: ReactApplicationContext ) {
     uriBuilder.appendQueryParameter("return_scheme", "com.livn.livngo")
 
     uriBuilder.appendQueryParameter("amount", amount)
-    uriBuilder.appendQueryParameter("editable_amount", "0")
-    uriBuilder.appendQueryParameter("transaction_type", "CREDIT")
-    uriBuilder.appendQueryParameter("installment_type", "MERCHANT")
-    uriBuilder.appendQueryParameter("installment_count", "2")
-    uriBuilder.appendQueryParameter("order_id", "123")
+    uriBuilder.appendQueryParameter("editable_amount", amountOfEditable)
+    uriBuilder.appendQueryParameter("transaction_type", typeOfTransaction)
+    uriBuilder.appendQueryParameter("installment_count", installmentCount)
+    uriBuilder.appendQueryParameter("installment_type", typeOfInstallment)
 
     val intent = Intent(Intent.ACTION_VIEW)
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
