@@ -16,13 +16,6 @@ class StonePosDeeplinkModule(reactContext: ReactApplicationContext) :
     return NAME
   }
 
-  // Example method
-  // See https://reactnative.dev/docs/native-modules-android
-  @ReactMethod
-  fun multiply(a: Double, b: Double, promise: Promise) {
-    promise.resolve(a * b)
-  }
-
   @ReactMethod
   fun makeTransaction( transactionSetup: ReadableMap, promise: Promise ) {
     try {
@@ -37,6 +30,16 @@ class StonePosDeeplinkModule(reactContext: ReactApplicationContext) :
   fun reprinterTransaction( restOfTransactionReprinter: ReadableMap, promise: Promise ) {
     try {
       ReprinterTransaction(reactApplicationContext).executeAction( restOfTransactionReprinter )
+      promise.resolve(true)
+    } catch (e: Exception) {
+      promise.reject(e)
+    }
+  }
+
+  @ReactMethod
+  fun cancelTransaction( restOfTransactionCancel: ReadableMap, promise: Promise ) {
+    try {
+      CancelTransaction(reactApplicationContext).executeAction( restOfTransactionCancel )
       promise.resolve(true)
     } catch (e: Exception) {
       promise.reject(e)
