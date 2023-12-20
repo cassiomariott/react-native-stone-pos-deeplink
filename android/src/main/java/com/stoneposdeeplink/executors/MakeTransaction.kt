@@ -33,11 +33,8 @@ class MakeTransaction(reactApplicationContext: ReactApplicationContext ) {
     }   
     
     val amount = transactionSetup.getString("amount")
-    val installmentCount = transactionSetup.getString("installmentCount")
     val amountOfEditable = transactionSetup.getString("amountOfEditable")
     val typeOfTransaction = transactionSetup.getString("typeOfTransaction")
-    val typeOfInstallment = transactionSetup.getString("typeOfInstallment")
-
 
     val uriBuilder = Uri.Builder()
     uriBuilder.authority("pay")
@@ -47,8 +44,17 @@ class MakeTransaction(reactApplicationContext: ReactApplicationContext ) {
     uriBuilder.appendQueryParameter("amount", amount)
     uriBuilder.appendQueryParameter("editable_amount", amountOfEditable)
     uriBuilder.appendQueryParameter("transaction_type", typeOfTransaction)
-    uriBuilder.appendQueryParameter("installment_count", installmentCount)
-    uriBuilder.appendQueryParameter("installment_type", typeOfInstallment)
+    
+    val typeOfInstallment = transactionSetup.getString("typeOfInstallment")
+    if (typeOfInstallment?.isNotEmpty() == true){
+      uriBuilder.appendQueryParameter("installment_type", typeOfInstallment)  
+      
+        val installmentCount = transactionSetup.getString("installmentCount")
+        if (installmentCount?.isNotEmpty() == true){
+          uriBuilder.appendQueryParameter("installment_count", installmentCount) 
+        } 
+    }
+    
 
     val intent = Intent(Intent.ACTION_VIEW)
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
