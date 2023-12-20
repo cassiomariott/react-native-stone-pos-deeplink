@@ -9,44 +9,40 @@ import android.net.Uri
 import android.content.Intent
 import java.lang.Exception
 
-class ReprinterTransaction(reactApplicationContext: ReactApplicationContext ) {
+class Printer(reactApplicationContext: ReactApplicationContext ) {
 
   val reactApplicationContext = reactApplicationContext
 
   fun executeAction(
-    restOfTransactionReprinter: ReadableMap
-  ) {
-
+    restOfPrinter: ReadableMap
+  ) { 
+    
     val requiredValues =
       listOf(
         "show_feedback_screen",
         "return_scheme",
-        "type_customer",
-        "atk"
+        "json"
       )
 
     requiredValues.forEach {
-      if (!restOfTransactionReprinter.hasKey(it)) {
+      if (!restOfPrinter.hasKey(it)) {
         throw Exception(
           String.format("%s is required", it)
         )
       }
-    }   
+    } 
     
-    val show_feedback_screen = restOfTransactionReprinter.getString("show_feedback_screen")
-    val type_customer = restOfTransactionReprinter.getString("type_customer")
-    val return_scheme = restOfTransactionReprinter.getString("return_scheme")
-    val atk = restOfTransactionReprinter.getString("atk")
-
+    val json = restOfPrinter.getString("json")
+    val return_scheme = restOfPrinter.getString("return_scheme")
+    val show_feedback_screen = restOfPrinter.getString("show_feedback_screen")
 
     val uriBuilder = Uri.Builder()
-    uriBuilder.authority("reprint")
-    uriBuilder.scheme("reprinter-app")
+    uriBuilder.authority("print")
+    uriBuilder.scheme("printer-app")
     uriBuilder.appendQueryParameter("SCHEME_RETURN", return_scheme)
 
+    uriBuilder.appendQueryParameter("PRINTABLE_CONTENT", json)
     uriBuilder.appendQueryParameter("SHOW_FEEDBACK_SCREEN", show_feedback_screen)
-    uriBuilder.appendQueryParameter("TYPE_CUSTOMER", type_customer)
-    uriBuilder.appendQueryParameter("ATK", atk)
 
     val intent = Intent(Intent.ACTION_VIEW)
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

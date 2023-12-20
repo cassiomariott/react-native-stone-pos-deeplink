@@ -22,6 +22,7 @@ class CancelTransaction(reactApplicationContext: ReactApplicationContext ) {
       listOf(
         "atk",
         "amount",
+        "return_scheme",
         "editable_amount"
       )
 
@@ -35,13 +36,14 @@ class CancelTransaction(reactApplicationContext: ReactApplicationContext ) {
     
     val atk = restOfTransactionCancel.getString("atk")
     val amount = restOfTransactionCancel.getString("amount")
+    val return_scheme = restOfTransactionCancel.getString("return_scheme")
     val editable_amount = restOfTransactionCancel.getString("editable_amount")
 
 
     val uriBuilder = Uri.Builder()
     uriBuilder.authority("cancel")
     uriBuilder.scheme("cancel-app")
-    uriBuilder.appendQueryParameter("returnscheme", "com.livn.livngo")
+    uriBuilder.appendQueryParameter("returnscheme", return_scheme)
 
     uriBuilder.appendQueryParameter("atk", atk)
     uriBuilder.appendQueryParameter("amount", amount)

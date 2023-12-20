@@ -2,7 +2,8 @@ import { NativeModules, Platform } from 'react-native';
 import type { 
   TransactionSetupType, 
   TransactionReprinter, 
-  TransactionCancel 
+  TransactionCancel, 
+  PrinterType 
 } from './types';
 
 const LINKING_ERROR =
@@ -54,6 +55,18 @@ export function cancelTransaction(
   return StonePosDeeplink.cancelTransaction(
     {
       ...restOfTransactionCancel
+    }
+  );
+}
+
+export function printer(
+  {
+    ...restOfPrinter
+  }: PrinterType
+): Promise<Boolean> {
+  return StonePosDeeplink.printer(
+    {
+      ...restOfPrinter
     }
   );
 }

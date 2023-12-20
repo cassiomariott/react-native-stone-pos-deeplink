@@ -21,6 +21,7 @@ class MakeTransaction(reactApplicationContext: ReactApplicationContext ) {
     val requiredValues =
       listOf(
         "amount",
+        "return_scheme",
         "typeOfTransaction"
       )
 
@@ -33,13 +34,14 @@ class MakeTransaction(reactApplicationContext: ReactApplicationContext ) {
     }   
     
     val amount = transactionSetup.getString("amount")
+    val return_scheme = transactionSetup.getString("return_scheme")
     val amountOfEditable = transactionSetup.getString("amountOfEditable")
     val typeOfTransaction = transactionSetup.getString("typeOfTransaction")
 
     val uriBuilder = Uri.Builder()
     uriBuilder.authority("pay")
     uriBuilder.scheme("payment-app")
-    uriBuilder.appendQueryParameter("return_scheme", "com.livn.livngo")
+    uriBuilder.appendQueryParameter("return_scheme", return_scheme)
 
     uriBuilder.appendQueryParameter("amount", amount)
     uriBuilder.appendQueryParameter("editable_amount", amountOfEditable)

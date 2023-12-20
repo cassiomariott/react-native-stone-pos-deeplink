@@ -17,7 +17,7 @@ export default function App() {
 
   const onReprinterTransaction = () => {
     reprinterTransaction({      
-      showw_feedback_screen: "true",
+      show_feedback_screen: "true",
       type_customer: 'MERCHANT', /* CLIENT (cliente), MERCHANT (lojista) */
       atk: "000000000000"
     })

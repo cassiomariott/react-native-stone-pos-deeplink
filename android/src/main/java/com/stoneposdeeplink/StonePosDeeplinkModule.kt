@@ -44,6 +44,16 @@ class StonePosDeeplinkModule(reactContext: ReactApplicationContext) :
     } catch (e: Exception) {
       promise.reject(e)
     }
+  } 
+
+  @ReactMethod
+  fun printer( restOfPrinter: ReadableMap, promise: Promise ) {
+    try {
+      Printer(reactApplicationContext).executeAction( restOfPrinter )
+      promise.resolve(true)
+    } catch (e: Exception) {
+      promise.reject(e)
+    }
   }
 
   companion object {

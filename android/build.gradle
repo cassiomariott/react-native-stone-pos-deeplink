@@ -84,7 +84,6 @@ repositories {
   google()
 }
 
-def stone_sdk_version = "4.8.3"
 def kotlin_version = getExtOrDefault("kotlinVersion")
 
 dependencies {
